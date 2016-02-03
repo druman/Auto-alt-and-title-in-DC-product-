@@ -2,18 +2,16 @@ function mymodule_node_presave($node) {
 //dpm($node);
 	$product_array = array();
 	foreach ($node->field_product['und'] as $product) {
-	  $product_array[] = $product['product_id'];
+		$product_array[] = $product['product_id'];
 	}
 	$products = commerce_product_load_multiple(
-	  $product_array,
-	  array("status"=>1)
+		$product_array, array("status"=>1)
 	);
 	foreach ($products as $img) {
-	  foreach ($img->field_izo['und'] as $key => $myimg) {
-	 
-		if (empty($myimg['alt']))   {  $img->field_izo['und'][$key]['alt'] = $img->title;}
-		if (empty($myimg['title'])) {  $img->field_izo['und'][$key]['title'] = $img->title;}
-	  }
-	commerce_product_save($img);
+		foreach ($img->field_izo['und'] as $key => $myimg) {	 
+			if (empty($myimg['alt']))   {  $img->field_izo['und'][$key]['alt'] = $img->title;}
+			if (empty($myimg['title'])) {  $img->field_izo['und'][$key]['title'] = $img->title;}
+		}
+		commerce_product_save($img);
 	}
 }
